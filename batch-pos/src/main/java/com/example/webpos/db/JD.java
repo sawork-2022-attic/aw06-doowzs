@@ -44,6 +44,11 @@ public class JD implements PosDB {
         return null;
     }
 
+    @Override
+    public void addProduct(Product product) {
+        throw new UnsupportedOperationException();
+    }
+
     public static List<Product> parseJD(String keyword) throws IOException {
         //获取请求https://search.jd.com/Search?keyword=java
         String url = "https://search.jd.com/Search?keyword=" + keyword;
