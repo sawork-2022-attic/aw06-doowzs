@@ -12,12 +12,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 @Repository
-public class Mongo implements PosDB {
+public class MongoPosDB implements PosDB {
 
     private final ProductRepository repository;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public Mongo(ProductRepository repository) {
+    public MongoPosDB(ProductRepository repository) {
         this.repository = repository;
     }
 
