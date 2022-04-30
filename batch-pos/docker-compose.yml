@@ -86,19 +86,25 @@ services:
     environment:
       - "IMPORT_AMAZON_META_DATA=true"
     volumes:
-      - "/Users/zty/Downloads:/data"
+      - "./data:/data"
   pos2:
     image: pos
     cpu_count: 1
     ports:
       - "8082:8080"
+    volumes:
+      - "./data:/data"
   pos3:
     image: pos
     cpu_count: 1
     ports:
       - "8083:8080"
+    volumes:
+      - "./data:/data"
   pos4:
     image: pos
     cpu_count: 1
     ports:
       - "8084:8080"
+    volumes:
+      - "./data:/data"
