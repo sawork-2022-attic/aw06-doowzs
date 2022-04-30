@@ -7,7 +7,7 @@
 $ cat meta_Books.json meta_Clothing_Shoes_and_Jewelry.json | split -l 100000
 ```
 
-将这57个块用partitioner进行分割，每一个worker负责处理导入五个块的商品信息。
+将这57个块用partitioner进行分割，每一个worker负责执行十个step。
 
 具体的实现配置如下：
 
@@ -24,7 +24,7 @@ $ cat meta_Books.json meta_Clothing_Shoes_and_Jewelry.json | split -l 100000
 2. Spring Batch的文档没有写如何配置Data Source（应该是要查询Spring文档），以前接触Spring Data都给了示范，配置Spring Batch弄了很久才搞懂；
 3. 容器中运行了多个pos实例，应该配置成只需要有一个pos启动导入数据的任务即可，这个是通过`docker-compose.yml`里修改容器执行参数来实现的；
 
-实现结果：清空所有数据库，开启`pos1`后启动导入数据任务，每一个worker负责导入五个文件，即五十万条数据，配置有16个线程并发执行，总共需要将近两分钟时间（1m58s128ms）完成。
+实现结果：清空所有数据库，开启`pos1`后启动导入数据任务，每一个worker负责导入十个文件，即五十万条数据，配置有16个线程并发执行，总共需要将近两分钟时间（1m58s128ms）完成。
 查询Mongo得到经过对JSON筛选后，共导入了2588975条数据（字符串处理大约筛掉了一半），平均21940条每秒。
 运行期间查看CPU负载可知，当前配置在导入数据时仅使用了大约50%的算力，可以通过调整任务配置的方式得到更快的效果（单节点Mongo的并发性能可能也会造成瓶颈，也需要调整）。
 
