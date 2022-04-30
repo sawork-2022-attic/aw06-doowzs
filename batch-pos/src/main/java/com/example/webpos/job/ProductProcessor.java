@@ -47,7 +47,7 @@ public class ProductProcessor implements ItemProcessor<JsonNode, Product>, StepE
         }
         double price = Double.parseDouble(priceStr);
 
-        JsonNode imageURL = jsonNode.get("imageURL");
+        JsonNode imageURL = jsonNode.get("imageURLHighRes");
         String image = null;
         if (imageURL.isArray() && imageURL.size() > 0) {
             image = imageURL.get(0).textValue();

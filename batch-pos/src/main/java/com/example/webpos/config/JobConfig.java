@@ -76,8 +76,8 @@ public class JobConfig {
     public TaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
-        executor.setMaxPoolSize(8);
-        executor.setQueueCapacity(200);
+        executor.setMaxPoolSize(16);
+        executor.setQueueCapacity(2000);
         return executor;
     }
 
@@ -105,7 +105,7 @@ public class JobConfig {
     public Step importProductsManagerStep() throws Exception {
         return stepBuilderFactory.get("importProductsManagerStep")
                 .partitioner("importProductsWorkerStep", partitioner())
-                .gridSize(1)
+                .gridSize(10)
                 .step(importProductsWorkerStep())
                 .taskExecutor(new SimpleAsyncTaskExecutor())
                 .build();
