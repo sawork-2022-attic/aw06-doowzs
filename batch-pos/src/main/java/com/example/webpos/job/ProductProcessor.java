@@ -25,18 +25,33 @@ public class ProductProcessor implements ItemProcessor<JsonNode, Product>, StepE
 
     @Override
     public Product process(JsonNode jsonNode) throws Exception {
-        if (!jsonNode.has("id") || jsonNode.get("id").isEmpty() ||
-                !jsonNode.has("title") || jsonNode.get("title").isEmpty() ||
-                !jsonNode.has("price") || jsonNode.get("price").isEmpty() ||
-                !jsonNode.has("imageURL") || jsonNode.get("imageURL").isEmpty()) {
+        if (!jsonNode.has("asin") ||
+                !jsonNode.has("title") ||
+                !jsonNode.has("price") ||
+                !jsonNode.has("imageURL")) {
             return null;
         }
         String id = jsonNode.get("asin").textValue();
         String name = jsonNode.get("title").textValue();
-        double price = Double.parseDouble(jsonNode.get("price").textValue().substring(1));
-        String image = jsonNode.get("imageURL").get(0).textValue();
 
-        logger.info(String.format("Process product id=%s", id));
+        String priceStr = jsonNode.get("price").textValue();
+        if (priceStr.startsWith("$")) {
+            priceStr = priceStr.substring(1);
+        }
+        if (priceStr.contains(" ")) {
+            priceStr = priceStr.substring(0, priceStr.indexOf(" "));
+        }
+        priceStr = priceStr.replace(",", "");
+        if (priceStr.isEmpty() || !Character.isDigit(priceStr.charAt(0))) {
+            return null;
+        }
+        double price = Double.parseDouble(priceStr);
+
+        JsonNode imageURL = jsonNode.get("imageURL");
+        String image = null;
+        if (imageURL.isArray() && imageURL.size() > 0) {
+            image = imageURL.get(0).textValue();
+        }
         return new Product(id, name, price, image);
     }
 }

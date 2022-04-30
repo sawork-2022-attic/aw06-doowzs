@@ -34,7 +34,6 @@ public class MongoPosDB implements PosDB {
 
     @Override
     public void addProduct(Product product) {
-        logger.info(String.format("Add product %s", product.getId()));
         repository.save(product);
     }
 
