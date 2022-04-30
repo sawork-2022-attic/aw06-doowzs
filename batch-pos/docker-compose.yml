@@ -19,6 +19,8 @@ services:
       - "3306:3306"
     environment:
       - "ALLOW_EMPTY_PASSWORD=yes"
+    volumes:
+      - "./initdb.sql:/docker-entrypoint-initdb.d/initdb.sql"
 
   mongo:
     image: bitnami/mongodb:5.0

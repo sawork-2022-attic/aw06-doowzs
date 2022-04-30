@@ -1,17 +1,20 @@
 package com.example.webpos.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
+@Configuration
 public class DataSourceConfig {
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.batch.datasource")
     public DataSource dataSource() {
-        return new DriverManagerDataSource();
+        DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
+        dataSourceBuilder.url("jdbc:mysql://mysql/pos");
+        dataSourceBuilder.driverClassName("com.mysql.cj.jdbc.Driver");
+        return dataSourceBuilder.build();
     }
 
 }
