@@ -13,8 +13,17 @@ services:
       - pos3
       - pos4
 
+  mysql:
+    image: bitnami/mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - "ALLOW_EMPTY_PASSWORD=yes"
+
   mongo:
     image: bitnami/mongodb:5.0
+    ports:
+      - "27017:27017"
     environment:
       - "ALLOW_EMPTY_PASSWORD=yes"
 
@@ -75,7 +84,7 @@ services:
     environment:
       - "IMPORT_AMAZON_META_DATA=true"
     volumes:
-      - "/Users/doowzs/Downloads:/data"
+      - "/Users/zty/Downloads:/data"
   pos2:
     image: pos
     cpu_count: 1
