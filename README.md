@@ -35,6 +35,17 @@ $ cat meta_Books.json meta_Clothing_Shoes_and_Jewelry.json | split -l 100000
 - POS效果截图：
   ![](./assets/pos.png)
 
+运行方法：进入`batch-pos`文件夹
+
+```shell
+$ docker-compose up -d redis6 mysql mongo
+# 等待mysql启动并初始化（大概半分钟？）
+$ mvn package
+$ docker-compose up -d pos1 pos2 pos3 pos4 # 运行在8081-8084
+$ docker-compose up -d haproxy             # HAProxy运行在8080
+```
+
+
 
 ---
 
